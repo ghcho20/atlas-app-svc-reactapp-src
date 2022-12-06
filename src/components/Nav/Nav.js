@@ -2,12 +2,12 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { APP_BASE_URL as baseURL } from "../env.js";
+import { APP_BASE_URL as baseURL } from "../../env.js";
 
 export const Nav = ({ public_key, private_key }) => {
   const [project, setProject] = useState("");
-  const [pub_key, setPubKey] = useState("");
-  const [priv_key, setPrivKey] = useState("");
+  const [pub_key, setPubKey] = useState(null);
+  const [priv_key, setPrivKey] = useState(null);
 
   const handlePubKeyChange = (event) => {
     setPubKey(event.target.value);
@@ -18,8 +18,10 @@ export const Nav = ({ public_key, private_key }) => {
   };
 
   const handleClick = (event) => {
+    if (pub_key === null || priv_key === null) return;
     public_key = pub_key;
     private_key = priv_key;
+    window.location.href = `/index.html?public_key=${pub_key}&private_key=${priv_key}`;
   };
 
   useEffect(() => {
@@ -72,14 +74,12 @@ export const Nav = ({ public_key, private_key }) => {
             onChange={handlePrivKeyChange}
           />
           <div className="input-group-append">
-            <a
-              href={
-                "/index.html?public_key=" + pub_key + "&private_key=" + priv_key
-              }
+            <div
               className="btn btn-primary btn-user btn-block"
+              onClick={(e) => handleClick(e)}
             >
               Submit
-            </a>
+            </div>
           </div>
         </div>
       </form>
