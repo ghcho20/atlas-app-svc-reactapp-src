@@ -51,7 +51,7 @@ export const Home = () => {
                   </div>
                 )}
 
-                {project_id != "" && public_key != null ? (
+                {project_id !== "" && public_key !== null ? (
                   <ClustersCard project_id={project_id} />
                 ) : (
                   <div></div>

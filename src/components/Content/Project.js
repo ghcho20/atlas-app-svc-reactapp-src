@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { APP_BASE_URL as baseURL } from "../env.js";
+import { APP_BASE_URL as baseURL } from "../../env.js";
 
 export const ProjectCard = ({ project_id, public_key, private_key }) => {
   const [project, setProject] = useState("");

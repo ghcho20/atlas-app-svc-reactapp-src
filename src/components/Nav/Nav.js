@@ -1,13 +1,17 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { APP_BASE_URL as baseURL } from "../../env.js";
+import { Button } from "@mui/material";
+import { UserContext } from "../../contexts/user-context.js";
 
 export const Nav = ({ public_key, private_key }) => {
   const [project, setProject] = useState("");
   const [pub_key, setPubKey] = useState(null);
   const [priv_key, setPrivKey] = useState(null);
+
+  const { logOutUser } = useContext(UserContext);
 
   const handlePubKeyChange = (event) => {
     setPubKey(event.target.value);
@@ -50,6 +54,18 @@ export const Nav = ({ public_key, private_key }) => {
       getProject();
     }
   });
+
+  const logOut = async () => {
+    console.log("Logout !!!");
+    try {
+      const loggedOut = await logOutUser();
+      if (loggedOut) {
+        window.location.href = "/";
+      }
+    } catch (e) {
+      alert(e);
+    }
+  };
 
   return (
     <nav className="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
@@ -96,6 +112,16 @@ export const Nav = ({ public_key, private_key }) => {
               className="img-profile rounded-circle"
               src="img/undraw_rocket.svg"
             />
+          </a>
+        </li>
+        <div className="topbar-divider d-none d-sm-block"></div>
+        <li className="nav-item dropdown no-arrow">
+          <a className="nav-link nav-item" href="#">
+            <span className="mr-2 d-none d-lg-inline text-gray-600 small">
+              <Button variant="contained" onClick={logOut}>
+                Logout
+              </Button>
+            </span>
           </a>
         </li>
       </ul>
